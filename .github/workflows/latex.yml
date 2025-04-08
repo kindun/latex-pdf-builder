@@ -2,28 +2,30 @@ name: Build LaTeX PDF
 
 on:
   push:
-    branches:
-      - main  # mainブランチに変更があったときに実行
+    paths:
+      - '**.tex'
+  workflow_dispatch:
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # Ubuntuでビルドを行う
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3  # リポジトリのコードをチェックアウト
+    - uses: actions/checkout@v3
 
-      - name: Set up LaTeX
-        run: sudo apt-get update && sudo apt-get install -y texlive-full  # LaTeX環境のセットアップ
+    - name: Set up TeX Live
+      uses: teatimeguest/setup-texlive-action@v2
 
-      - name: Compile LaTeX
-        run: |
-          pdflatex main.tex || exit 1  # pdflatexでコンパイル、失敗したら終了
-          ls -l  # ビルドされたファイルを確認
+    - name: Install packages
+      run: |
+        tlmgr install latexmk scheme-basic
 
-      - name: Upload PDF as artifact
-        uses: actions/checkout@v4
-        uses: actions/setup-node@v3
-        with:
-          name: output-pdf  # アーティファクト名
-          path: main.pdf    # 生成されたPDFファイルをアップロード
+    - name: Compile LaTeX
+      run: |
+        latexmk -pdf main.tex
+
+    - name: Upload PDF
+      uses: actions/upload-artifact@v3
+      with:
+        name: output-pdf
+        path: main.pdf
