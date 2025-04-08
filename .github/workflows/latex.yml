@@ -25,3 +25,4 @@ jobs:
         git config --global user.email suzudai2118@gmail.com
         git add main.pdf
         git commit -m "Add PDF output"
+        git push origin main
