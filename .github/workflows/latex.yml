@@ -19,8 +19,11 @@ jobs:
         root-file:
           main.tex
           
-    - name: Upload PDF
-      uses: actions/upload-artifact@v3
-      with:
-        name: output-pdf
-        path: main.pdf
+    - name: Commit PDF to repository
+      run: |
+        git config --global user.name kindun
+        git config --global user.email suzudai2118@gmail.com
+        git add main.pdf
+        git commit -m "Add PDF output"
+        git push
+      
