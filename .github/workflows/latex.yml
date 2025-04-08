@@ -23,7 +23,7 @@ jobs:
     - name: Compile LaTeX
       run: |
         latexmk -pdf main.tex
-        ls -l
+        echo "latexmk finished"
 
     - name: Upload PDF
       uses: actions/upload-artifact@v3
