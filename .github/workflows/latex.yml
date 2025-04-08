@@ -2,26 +2,27 @@ name: Build LaTeX PDF
 
 on:
   push:
-    paths:
-      - '**.tex'
-  workflow_dispatch:
+    branches:
+      - main  # mainブランチに変更があったときに実行
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # Ubuntuでビルドを行う
+
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3  # リポジトリのコードをチェックアウト
 
       - name: Set up LaTeX
-        uses: xu-cheng/latex-action@v2
+        run: sudo apt-get update && sudo apt-get install -y texlive-full  # LaTeX環境のセットアップ
 
       - name: Compile LaTeX
         run: |
-          pdflatex main.tex
+          pdflatex main.tex || exit 1  # pdflatexでコンパイル、失敗したら終了
+          ls -l  # ビルドされたファイルを確認
 
       - name: Upload PDF as artifact
         uses: actions/upload-artifact@v3
         with:
-          name: output-pdf
-          path: main.pdf
+          name: output-pdf  # アーティファクト名
+          path: main.pdf    # 生成されたPDFファイルをアップロード
