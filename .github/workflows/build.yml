@@ -15,9 +15,11 @@ jobs:
       - name: Set up LaTeX
         uses: xu-cheng/latex-action@v2  # LaTeX環境をセットアップ
 
-      - name: Compile LaTeX file
+      - name: Compile LaTeX
         run: |
-          pdflatex main.tex  # LaTeXをコンパイル
+          pdflatex main.tex || exit 1  # pdflatexが失敗したら処理を終了
+          ls -l  # ファイルリストを確認
+
           
       - name: Upload PDF as artifact
         uses: actions/upload-artifact@v3
