@@ -22,7 +22,7 @@ jobs:
           ls -l  # ビルドされたファイルを確認
 
       - name: Upload PDF as artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: output-pdf  # アーティファクト名
           path: main.pdf    # 生成されたPDFファイルをアップロード
