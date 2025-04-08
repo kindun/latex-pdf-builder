@@ -1,0 +1,26 @@
+name: Build LaTeX
+
+on:
+  push:
+    branches:
+      - main  # mainブランチに変更があったときに実行
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3  # リポジトリの内容をチェックアウト
+
+      - name: Set up LaTeX
+        uses: xu-cheng/latex-action@v2  # LaTeX環境をセットアップ
+
+      - name: Compile LaTeX file
+        run: |
+          pdflatex main.tex  # LaTeXをコンパイル
+          
+      - name: Upload PDF as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: output-pdf  # アーティファクトの名前
+          path: main.pdf  # アップロードするPDFファイルのパス
